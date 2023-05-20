@@ -7,7 +7,6 @@ import (
 	"strings"
 	"sync"
 
-	ini "github.com/mdokusV/monte_carlo_dice/Ini"
 	"github.com/mdokusV/monte_carlo_dice/globalVar"
 	MonteCarloMath "github.com/mdokusV/monte_carlo_dice/mainMonteCarloMathRand"
 	"github.com/mdokusV/monte_carlo_dice/objects"
@@ -31,8 +30,6 @@ func main() {
 
 	monteForEx(exByRounds)
 
-	MonteCarloMath.MonteUsingCalcEx(exByRounds)
-
 	endPrint(exByRounds)
 
 }
@@ -41,7 +38,7 @@ func monteForEx(exByRounds [][]objects.Round) {
 	var wg sync.WaitGroup
 	for exValue := globalVar.MinExValue; exValue < globalVar.MaxExValue; exValue++ {
 		wg.Add(1)
-		dices, rounds := ini.DefineVariables()
+		dices, rounds := defineVariables()
 		go func(exValue int) {
 			defer wg.Done()
 			monteCarlo(rounds, dices, exValue, exByRounds)
@@ -83,9 +80,34 @@ func endPrint(exByRounds [][]objects.Round) {
 			fmt.Fprintf(globalVar.Writer, "%f ", exByRounds[i][j].Average)
 		}
 
-		maxInRound := objects.FindMaxWithIndex(exByRounds[i])
+		maxInRound := findMaxWithIndex(exByRounds[i])
 		fmt.Fprintf(globalVar.Writer, "  %d", maxInRound+globalVar.MinExValue+1)
 
 		fmt.Fprintf(globalVar.Writer, "\n")
 	}
+}
+
+func findMaxWithIndex(round []objects.Round) int {
+	maxValue := round[0].Average
+	maxIndex := 0
+	for v := range round {
+		if round[v].Average > maxValue {
+			maxValue = round[v].Average
+			maxIndex = v
+		}
+	}
+	return maxIndex
+}
+
+func defineVariables() (objects.Dices, []objects.Round) {
+	dices := objects.Dices{
+		Dices: make([]int, globalVar.NumberOfDices),
+		Sum:   0,
+	}
+
+	rounds := make([]objects.Round, globalVar.MaxNumberOfRounds)
+	for i := range rounds {
+		rounds[i].Number = i
+	}
+	return dices, rounds
 }

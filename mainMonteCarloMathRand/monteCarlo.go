@@ -4,7 +4,6 @@ import (
 	"math/rand"
 	"time"
 
-	ini "github.com/mdokusV/monte_carlo_dice/Ini"
 	"github.com/mdokusV/monte_carlo_dice/globalVar"
 	"github.com/mdokusV/monte_carlo_dice/objects"
 )
@@ -29,16 +28,6 @@ func throwTurns(dices *objects.Dices, rounds []objects.Round, exValue int, rando
 			break
 		}
 	}
-}
-
-func MonteUsingCalcEx(exByRounds [][]objects.Round) {
-	randomGenerator := rand.New(rand.NewSource(time.Now().UnixNano()))
-	dices, rounds := ini.DefineVariables()
-	for i := globalVar.MaxNumberOfRounds - 1; i >= 0; i-- {
-		change := rollDices(*dices, exValue, randomGenerator)
-
-	}
-
 }
 
 func rollDices(dices objects.Dices, expectedValueNatural int, randomGenerator *rand.Rand) bool {
