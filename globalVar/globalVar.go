@@ -5,11 +5,11 @@ import (
 	"os"
 )
 
-const NumberOfDices = 2
+const NumberOfDices = 1
 
 const MaxNumberOfRounds = 15
 
-const MonteCarloSize = 1_000_000
+const MonteCarloSize = 10_000_000
 
 const DefaultExValue = 3
 

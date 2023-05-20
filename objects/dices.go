@@ -7,9 +7,12 @@ type Dices struct {
 
 func (dices *Dices) CalculateSum() {
 	dices.Sum = 0
-	for _, dice := range dices.Dices {
-		dices.Sum += dice
+	for i := 0; i < len(dices.Dices); i++ {
+		dices.Sum += dices.Dices[i]
 	}
+	// for _, dice := range dices.Dices {
+	// 	dices.Sum += dice
+	// }
 }
 
 func (dices *Dices) Zeros() {
